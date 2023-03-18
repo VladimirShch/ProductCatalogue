@@ -7,10 +7,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="DataAccess\" />
-    <Folder Include="Presentation\" />
-  </ItemGroup>
-
 </Project>
