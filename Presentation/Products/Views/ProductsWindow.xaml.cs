@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Autofac;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+using TaskWPFExperiment.Presentation.Common;
+using TaskWPFExperiment.Presentation.Products.ViewModels;
+
 namespace TaskWPFExperiment.Presentation.Products.Views
 {
     /// <summary>
@@ -16,6 +13,7 @@ namespace TaskWPFExperiment.Presentation.Products.Views
         public ProductsWindow()
         {
             InitializeComponent();
+            DataContext = IoC.Container?.Resolve<ProductsViewModel>();
         }
     }
 }
