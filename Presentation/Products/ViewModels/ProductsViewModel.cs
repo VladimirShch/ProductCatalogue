@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using TaskWPFExperiment.Core.Products;
 using TaskWPFExperiment.Presentation.Common;
+using TaskWPFExperiment.Presentation.Dialogs.ViewModels;
 
 namespace TaskWPFExperiment.Presentation.Products.ViewModels
 {
@@ -18,6 +19,10 @@ namespace TaskWPFExperiment.Presentation.Products.ViewModels
         {
             this.productRepository = productRepository;
             products = Enumerable.Empty<Product>();
+
+            InvokeProductDialog = vm => false;
+            InvokeConfirmationDialog = vm => false;
+
             AddItem = new ParameterlessCommand(() => this.productRepository.Save(new Product
             {
                 Name = "Aazz",
@@ -32,13 +37,17 @@ namespace TaskWPFExperiment.Presentation.Products.ViewModels
                     return;
                 }
                 var id = Convert.ToInt32(p);
+                Product productToDelete = Products.First(t => t.Id == id);
+                bool confirmDelete = InvokeConfirmationDialog(new ConfirmationViewModel($"Are you shure you want to delete {productToDelete.Name}?"));
+                if (!confirmDelete)
+                {
+                    return;
+                }
                 this.productRepository.Delete(id)
                     .ContinueWith(o =>
                         this.productRepository.GetAll().ContinueWith(t => SetProducts(t.Result)));
             });
-
-            InvokeProductDialog = vm => false;
-
+          
             Edit = new ParameterizedCommand(p =>
             {
                 if (p is null)
@@ -83,6 +92,7 @@ namespace TaskWPFExperiment.Presentation.Products.ViewModels
         }
 
         public Func<ProductViewModel, bool> InvokeProductDialog { get; set; }
+        public Func<ConfirmationViewModel, bool> InvokeConfirmationDialog { get; set; }
 
         public ICommand AddItem { get; private set; }
 
