@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TaskWPFExperiment.Presentation.Products.ViewModels;
 
 namespace TaskWPFExperiment.Presentation.Products.Views
 {
@@ -22,6 +23,17 @@ namespace TaskWPFExperiment.Presentation.Products.Views
         public ProductWindow()
         {
             InitializeComponent();
+            this.Activated += (sender, e) =>
+            {
+                if(this.DataContext is ProductViewModel viewModel)
+                {
+                    viewModel.SavingFinished += (s, se) =>
+                    {
+                        this.DialogResult = true;
+                        this.Close();
+                    };
+                }
+            };
         }
     }
 }

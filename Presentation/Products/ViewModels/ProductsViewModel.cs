@@ -18,25 +18,44 @@ namespace TaskWPFExperiment.Presentation.Products.ViewModels
         {
             this.productRepository = productRepository;
             products = Enumerable.Empty<Product>();
-            AddItem = new ParameterlessCommand(() => productRepository.Save(new Product
+            AddItem = new ParameterlessCommand(() => this.productRepository.Save(new Product
             {
                 Name = "Aazz",
                 Type = ProductType.Peripheral,
                 Price = 5000
-            }).ContinueWith(o => productRepository.GetAll().ContinueWith(t => SetProducts(t.Result))));
+            }).ContinueWith(o => this.productRepository.GetAll().ContinueWith(t => SetProducts(t.Result))));
 
             Delete = new ParameterizedCommand(p =>
             {
-            if (p is null)
-            {
-                return;
-            }
-            var id = Convert.ToInt32(p);
-            productRepository.Delete(id)
-                .ContinueWith(o =>
-                    productRepository.GetAll().ContinueWith(t => SetProducts(t.Result)));
-        });
+                if (p is null)
+                {
+                    return;
+                }
+                var id = Convert.ToInt32(p);
+                this.productRepository.Delete(id)
+                    .ContinueWith(o =>
+                        this.productRepository.GetAll().ContinueWith(t => SetProducts(t.Result)));
+            });
 
+            InvokeProductDialog = vm => false;
+
+            Edit = new ParameterizedCommand(p =>
+            {
+                if (p is null)
+                {
+                    return;
+                }
+                var id = Convert.ToInt32(p);
+
+                Product productToEdit = Products.First(t => t.Id == id);
+                var productViewModel = new ProductViewModel(this.productRepository, productToEdit);
+                bool confirmed = InvokeProductDialog(productViewModel);
+                if (confirmed)
+                {
+                    this.productRepository.GetAll().ContinueWith(t => SetProducts(t.Result));
+                }
+            });
+            
             OnInitialize();
         }
 
@@ -63,7 +82,11 @@ namespace TaskWPFExperiment.Presentation.Products.ViewModels
             }
         }
 
+        public Func<ProductViewModel, bool> InvokeProductDialog { get; set; }
+
         public ICommand AddItem { get; private set; }
+
+        public ICommand Edit { get; init; }
 
         public ICommand Delete { get; init; }
 

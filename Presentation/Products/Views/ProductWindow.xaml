@@ -9,11 +9,15 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <Label>Name</Label>
-            <TextBox Text="{Binding Name}"/>
+            <TextBox Text="{Binding Product.Name}"/>
             <Label>Type</Label>
-            <TextBox Text="{Binding Type}"/>
+            <TextBox Text="{Binding Product.Type}"/>
             <Label>Price</Label>
-            <TextBox Text="{Binding Price}"/>
+            <TextBox Text="{Binding Product.Price}"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding Save}">OK</Button>
+                <Button IsCancel="True">Cancel</Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

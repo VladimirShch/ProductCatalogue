@@ -13,7 +13,17 @@ namespace TaskWPFExperiment.Presentation.Products.Views
         public ProductsWindow()
         {
             InitializeComponent();
-            DataContext = IoC.Container?.Resolve<ProductsViewModel>();
+            var viewModel = IoC.Container?.Resolve<ProductsViewModel>();
+            DataContext = viewModel;
+            viewModel.InvokeProductDialog = OnInvokeProductDialog;
+        }
+
+        private bool OnInvokeProductDialog(ProductViewModel productViewModel)
+        {
+            var productWindow = new ProductWindow();
+            productWindow.DataContext = productViewModel;
+            bool? confirmed = productWindow.ShowDialog();
+            return confirmed ?? false;
         }
     }
 }
