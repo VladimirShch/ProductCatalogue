@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -23,7 +24,19 @@ namespace TaskWPFExperiment.Presentation.Products.ViewModels
                 Type = ProductType.Peripheral,
                 Price = 5000
             }).ContinueWith(o => productRepository.GetAll().ContinueWith(t => SetProducts(t.Result))));
-            
+
+            Delete = new ParameterizedCommand(p =>
+            {
+            if (p is null)
+            {
+                return;
+            }
+            var id = Convert.ToInt32(p);
+            productRepository.Delete(id)
+                .ContinueWith(o =>
+                    productRepository.GetAll().ContinueWith(t => SetProducts(t.Result)));
+        });
+
             OnInitialize();
         }
 
@@ -51,6 +64,8 @@ namespace TaskWPFExperiment.Presentation.Products.ViewModels
         }
 
         public ICommand AddItem { get; private set; }
+
+        public ICommand Delete { get; init; }
 
         private void OnInitialize()
         {
