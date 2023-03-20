@@ -4,20 +4,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProductCatalogue.WPF.Presentation.Products.Views"
+        xmlns:comm="clr-namespace:ProductCatalogue.WPF.Presentation.Common"
+        xmlns:core="clr-namespace:ProductCatalogue.WPF.Core.Products"
         mc:Ignorable="d"
-        Title="ProductWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <Label>Name</Label>
-            <TextBox Text="{Binding Product.Name}"/>
-            <Label>Type</Label>
-            <TextBox Text="{Binding Product.Type}"/>
-            <Label>Price</Label>
-            <TextBox Text="{Binding Product.Price}"/>
-            <StackPanel Orientation="Horizontal">
-                <Button Command="{Binding Save}">OK</Button>
-                <Button IsCancel="True">Cancel</Button>
-            </StackPanel>
+        WindowStartupLocation="CenterScreen"
+        Height="250" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="700">
+        <Label>Name</Label>
+        <TextBox>
+            <TextBox.Text>
+                <Binding Path="Product.Name">
+                    <!--<Binding.ValidationRules>
+                        <DataErrorValidationRule/>
+                    </Binding.ValidationRules>-->
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <Label>Type</Label>
+        <ComboBox ItemsSource="{Binding Source={comm:EnumValuesProvider {x:Type core:ProductType}}}"
+                      SelectedItem="{Binding Product.Type}"></ComboBox>
+        <Label>Price</Label>
+        <TextBox>
+            <TextBox.Text>
+                <Binding Path="Product.Price">
+                    <!--<Binding.ValidationRules>
+                        <DataErrorValidationRule/>
+                    </Binding.ValidationRules>-->
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding Save}" Style="{StaticResource GreenButton}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Save</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button IsCancel="True" Style="{StaticResource WhiteButton}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Cancel</TextBlock>
+                </StackPanel>
+            </Button>
         </StackPanel>
-    </Grid>
+    </StackPanel>
 </Window>
