@@ -1,0 +1,20 @@
+﻿<Window x:Class="ProductCatalogue.WPF.Presentation.Dialogs.Views.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProductCatalogue.WPF.Presentation.Dialogs.Views"
+        mc:Ignorable="d"
+        WindowStyle="ToolWindow"
+        WindowStartupLocation="CenterScreen"
+        Height="200" Width="450">
+    <Window.Resources>
+        <ResourceDictionary Source="../../Styles/Styles.xaml"/>
+    </Window.Resources>
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Message}"/>
+            <Button IsCancel="True" Style="{StaticResource GreenButton}">OK</Button>
+        </StackPanel>
+    </Grid>
+</Window>

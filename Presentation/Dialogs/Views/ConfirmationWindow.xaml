@@ -7,12 +7,15 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Height="250" Width="400" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary Source="../../Styles/Styles.xaml"/>
+    </Window.Resources>
     <Grid>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock Text="{Binding Message}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button IsDefault="True" Click="Confirm_Click" HorizontalAlignment="Left">OK</Button>
-                <Button IsCancel="True" HorizontalAlignment="Right">Cancel</Button>
+                <Button IsDefault="True" Click="Confirm_Click" HorizontalAlignment="Left" Style="{StaticResource GreenButton}">OK</Button>
+                <Button IsCancel="True" HorizontalAlignment="Right" Style="{StaticResource WhiteButton}">Cancel</Button>
             </StackPanel>
         </StackPanel>
     </Grid>
