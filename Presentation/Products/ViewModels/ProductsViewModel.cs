@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TaskWPFExperiment.Core.Products;
-using TaskWPFExperiment.Presentation.Common;
-using TaskWPFExperiment.Presentation.Dialogs.ViewModels;
+using ProductCatalogue.WPF.Core.Products;
+using ProductCatalogue.WPF.Presentation.Common;
+using ProductCatalogue.WPF.Presentation.Dialogs.ViewModels;
 
-namespace TaskWPFExperiment.Presentation.Products.ViewModels
+namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
 {
     public class ProductsViewModel : ViewModelBase
     {

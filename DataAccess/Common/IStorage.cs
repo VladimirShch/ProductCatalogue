@@ -1,7 +1,7 @@
 ﻿
 using System.Threading.Tasks;
 
-namespace TaskWPFExperiment.DataAccess.Common
+namespace ProductCatalogue.WPF.DataAccess.Common
 {
     public interface IStorage
     {

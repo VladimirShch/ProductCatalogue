@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using System.Windows;
-using TaskWPFExperiment.Presentation.Common;
-using TaskWPFExperiment.Presentation.Dialogs.ViewModels;
-using TaskWPFExperiment.Presentation.Dialogs.Views;
-using TaskWPFExperiment.Presentation.Products.ViewModels;
+using ProductCatalogue.WPF.Presentation.Common;
+using ProductCatalogue.WPF.Presentation.Dialogs.ViewModels;
+using ProductCatalogue.WPF.Presentation.Dialogs.Views;
+using ProductCatalogue.WPF.Presentation.Products.ViewModels;
 
-namespace TaskWPFExperiment.Presentation.Products.Views
+namespace ProductCatalogue.WPF.Presentation.Products.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

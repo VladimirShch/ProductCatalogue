@@ -1,6 +1,6 @@
-﻿using TaskWPFExperiment.Presentation.Common;
+﻿using ProductCatalogue.WPF.Presentation.Common;
 
-namespace TaskWPFExperiment.Presentation.Dialogs.ViewModels
+namespace ProductCatalogue.WPF.Presentation.Dialogs.ViewModels
 {
     public class ConfirmationViewModel : ViewModelBase
     {

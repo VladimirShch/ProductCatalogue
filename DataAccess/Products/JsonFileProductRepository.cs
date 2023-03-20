@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TaskWPFExperiment.Core.Products;
-using TaskWPFExperiment.DataAccess.Common;
+using ProductCatalogue.WPF.Core.Products;
+using ProductCatalogue.WPF.DataAccess.Common;
 
-namespace TaskWPFExperiment.DataAccess.Products
+namespace ProductCatalogue.WPF.DataAccess.Products
 {
     // TODO: add logger;
     // TODO: add file exceptions handling, throwing core-exception to higher level

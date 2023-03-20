@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using TaskWPFExperiment.Presentation.Products.ViewModels;
+using ProductCatalogue.WPF.Presentation.Products.ViewModels;
 
-namespace TaskWPFExperiment.Presentation.Products.Views
+namespace ProductCatalogue.WPF.Presentation.Products.Views
 {
     /// <summary>
     /// Логика взаимодействия для ProductWindow.xaml

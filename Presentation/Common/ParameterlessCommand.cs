@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaskWPFExperiment.Presentation.Common
+namespace ProductCatalogue.WPF.Presentation.Common
 {
     public class ParameterlessCommand : BaseCommand
     {

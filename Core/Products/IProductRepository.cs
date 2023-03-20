@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace TaskWPFExperiment.Core.Products
+namespace ProductCatalogue.WPF.Core.Products
 {
     public interface IProductRepository
     {

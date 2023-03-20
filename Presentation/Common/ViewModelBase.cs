@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace TaskWPFExperiment.Presentation.Common
+namespace ProductCatalogue.WPF.Presentation.Common
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {

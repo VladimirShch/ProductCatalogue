@@ -1,4 +1,4 @@
-﻿namespace TaskWPFExperiment.Core.Products
+﻿namespace ProductCatalogue.WPF.Core.Products
 {
     public class Product
     {

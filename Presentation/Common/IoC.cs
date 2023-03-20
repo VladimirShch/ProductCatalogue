@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace TaskWPFExperiment.Presentation.Common
+namespace ProductCatalogue.WPF.Presentation.Common
 {
     public static class IoC
     {

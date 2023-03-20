@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace TaskWPFExperiment.Presentation.Dialogs.Views
+namespace ProductCatalogue.WPF.Presentation.Dialogs.Views
 {
     /// <summary>
     /// Логика взаимодействия для ConfirmationWindow.xaml

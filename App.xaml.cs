@@ -1,12 +1,12 @@
 ﻿using Autofac;
 using System.Windows;
-using TaskWPFExperiment.Core.Products;
-using TaskWPFExperiment.DataAccess.Common;
-using TaskWPFExperiment.DataAccess.Products;
-using TaskWPFExperiment.Presentation.Common;
-using TaskWPFExperiment.Presentation.Products.ViewModels;
+using ProductCatalogue.WPF.Core.Products;
+using ProductCatalogue.WPF.DataAccess.Common;
+using ProductCatalogue.WPF.DataAccess.Products;
+using ProductCatalogue.WPF.Presentation.Common;
+using ProductCatalogue.WPF.Presentation.Products.ViewModels;
 
-namespace TaskWPFExperiment
+namespace ProductCatalogue.WPF
 {
     /// <summary>
     /// Interaction logic for App.xaml

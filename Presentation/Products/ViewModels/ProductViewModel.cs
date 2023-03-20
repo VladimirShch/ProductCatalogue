@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TaskWPFExperiment.Core.Products;
-using TaskWPFExperiment.Presentation.Common;
+using ProductCatalogue.WPF.Core.Products;
+using ProductCatalogue.WPF.Presentation.Common;
 
-namespace TaskWPFExperiment.Presentation.Products.ViewModels
+namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
 {
     public class ProductViewModel : ViewModelBase
     {

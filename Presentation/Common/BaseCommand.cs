@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace TaskWPFExperiment.Presentation.Common
+namespace ProductCatalogue.WPF.Presentation.Common
 {
     public abstract class BaseCommand : ICommand 
     {
