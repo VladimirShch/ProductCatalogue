@@ -21,9 +21,9 @@
         <TextBox>
             <TextBox.Text>
                 <Binding Path="Product.Name">
-                    <!--<Binding.ValidationRules>
+                    <Binding.ValidationRules>
                         <DataErrorValidationRule/>
-                    </Binding.ValidationRules>-->
+                    </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
         </TextBox>
@@ -34,9 +34,9 @@
         <TextBox>
             <TextBox.Text>
                 <Binding Path="Product.Price">
-                    <!--<Binding.ValidationRules>
+                    <Binding.ValidationRules>
                         <DataErrorValidationRule/>
-                    </Binding.ValidationRules>-->
+                    </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
         </TextBox>

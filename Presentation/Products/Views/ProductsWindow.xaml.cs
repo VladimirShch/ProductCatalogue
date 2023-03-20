@@ -19,6 +19,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.Views
             DataContext = viewModel;
             viewModel.InvokeProductDialog = OnInvokeProductDialog;
             viewModel.InvokeConfirmationDialog = OnInvokeConfirmationDialog;
+            viewModel.InvokeMessageDialog = OnInvokeMessageDialog;
         }
 
         private bool OnInvokeProductDialog(ProductViewModel productViewModel)
@@ -34,6 +35,16 @@ namespace ProductCatalogue.WPF.Presentation.Products.Views
         private bool OnInvokeConfirmationDialog(ConfirmationViewModel confirmationViewModel)
         {
             var confirmationWindow = new ConfirmationWindow
+            {
+                DataContext = confirmationViewModel
+            };
+            bool? confirmed = confirmationWindow.ShowDialog();
+            return confirmed ?? false;
+        }
+
+        private bool OnInvokeMessageDialog(ConfirmationViewModel confirmationViewModel)
+        {
+            var confirmationWindow = new MessageWindow
             {
                 DataContext = confirmationViewModel
             };

@@ -3,29 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using ProductCatalogue.WPF.Core.Products;
 using ProductCatalogue.WPF.Presentation.Common;
 using ProductCatalogue.WPF.Presentation.Dialogs.ViewModels;
+using ProductCatalogue.WPF.Presentation.Products.Models;
 
 namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
 {
     public class ProductsViewModel : ViewModelBase
     {
-        private readonly IProductRepository productRepository;
+        private readonly IProductModelService productRepository;
+        private readonly ProductModelFactory productModelFactory;
         private bool dataReady;
-        private IEnumerable<Product> products;
+        private IEnumerable<ProductModel> products;
 
-        public ProductsViewModel(IProductRepository productRepository)
+        public ProductsViewModel(IProductModelService productRepository, ProductModelFactory productModelFactory)
         {
             this.productRepository = productRepository;
-            products = Enumerable.Empty<Product>();
+            this.productModelFactory = productModelFactory;
+
+            products = Enumerable.Empty<ProductModel>();
 
             InvokeProductDialog = vm => false;
             InvokeConfirmationDialog = vm => false;
+            InvokeMessageDialog = vm => false;
 
             AddItem = new ParameterlessCommand(() =>
             {
-                var productViewModel = new ProductViewModel(this.productRepository, new Product());
+                var productViewModel = new ProductViewModel(this.productRepository, this.productModelFactory.Create());
                 bool productSaved = InvokeProductDialog(productViewModel);
                 if (productSaved)
                 {
@@ -40,8 +44,8 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
                     return;
                 }
                 var id = Convert.ToInt32(p);
-                Product productToDelete = Products.First(t => t.Id == id);
-                bool confirmDelete = InvokeConfirmationDialog(new ConfirmationViewModel($"Are you shure you want to delete \"{productToDelete.Name}\"?"));
+                ProductModel productToDelete = Products.First(t => t.Id == id);
+                bool confirmDelete = InvokeConfirmationDialog(new ConfirmationViewModel($"Are you sure you want to delete \"{productToDelete.Name}\"?"));
                 if (!confirmDelete)
                 {
                     return;
@@ -50,7 +54,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
                     .ContinueWith(o =>
                         this.productRepository.GetAll().ContinueWith(t => SetProducts(t.Result)));
             });
-          
+
             Edit = new ParameterizedCommand(p =>
             {
                 if (p is null)
@@ -59,7 +63,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
                 }
                 var id = Convert.ToInt32(p);
 
-                Product productToEdit = Products.First(t => t.Id == id);
+                ProductModel productToEdit = Products.First(t => t.Id == id);
                 var productViewModel = new ProductViewModel(this.productRepository, productToEdit);
                 bool confirmed = InvokeProductDialog(productViewModel);
                 if (confirmed)
@@ -67,7 +71,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
                     this.productRepository.GetAll().ContinueWith(t => SetProducts(t.Result));
                 }
             });
-            
+
             OnInitialize();
         }
 
@@ -76,7 +80,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
             get => dataReady;
             private set
             {
-                if(dataReady != value)
+                if (dataReady != value)
                 {
                     dataReady = value;
                     RaisePropertyChanged(nameof(DataReady));
@@ -84,7 +88,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
             }
         }
 
-        public IEnumerable<Product> Products
+        public IEnumerable<ProductModel> Products
         {
             get => products;
             private set
@@ -96,6 +100,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
 
         public Func<ProductViewModel, bool> InvokeProductDialog { get; set; }
         public Func<ConfirmationViewModel, bool> InvokeConfirmationDialog { get; set; }
+        public Func<ConfirmationViewModel, bool> InvokeMessageDialog { get; set; }
 
         public ICommand AddItem { get; private set; }
 
@@ -117,7 +122,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
             DataReady = true;
         }
 
-        private void SetProducts(IEnumerable<Product> products)
+        private void SetProducts(IEnumerable<ProductModel> products)
         {
             Products = products;
             DataReady = true;
