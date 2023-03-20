@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProductCatalogue.WPF.Core.Products;
 using ProductCatalogue.WPF.DataAccess.Common;
+using ProductCatalogue.WPF.Core.Common;
 
 namespace ProductCatalogue.WPF.DataAccess.Products
 {
@@ -52,7 +53,15 @@ namespace ProductCatalogue.WPF.DataAccess.Products
         public async Task Save(Product product)
         {
             var products = await storage.GetData<ICollection<Product>>(filePath) ?? new List<Product>();
-            if(product.Id == 0)
+            
+            //! Checking name uniqueness here 
+            Product? productWithDuplicatedName = products.FirstOrDefault(p => p.Name == product.Name && p.Id != product.Id);
+            if (productWithDuplicatedName is not null)
+            {
+                throw new RepositoryException($"There is a duplicated name for \"{product.Name}\"");
+            }
+
+            if (product.Id == 0)
             {
                 product.Id = products.Any() ? products.Max(t => t.Id) + 1 : 1;
                 products.Add(product);

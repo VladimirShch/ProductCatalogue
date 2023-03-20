@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ProductCatalogue.WPF.Core.Products;
 using ProductCatalogue.WPF.Presentation.Common;
+using ProductCatalogue.WPF.Presentation.Dialogs.ViewModels;
 
 namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
 {
@@ -18,11 +19,22 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
             Save = new ParameterlessCommand(() =>
             {
                 this.productRepository.Save(Product)
-                    .ContinueWith(t => SavingFinished?.Invoke(this, EventArgs.Empty), TaskScheduler.FromCurrentSynchronizationContext());
-            });
+                    .ContinueWith(t =>
+                    {
+                        if (t.Exception is null)
+                        {
+                            SavingFinished?.Invoke(this, EventArgs.Empty);
+                        }
+                        else
+                        {
+                            _ = InvokeMessageDialog?.Invoke(new ConfirmationViewModel(t.Exception.Message));
+                        }
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+            }/*, () => Product.IsValid*/);
         }
 
-        public event EventHandler? SavingFinished;
+        public EventHandler? SavingFinished { get; set; }
+        public Func<ConfirmationViewModel, bool>? InvokeMessageDialog { get; set; }
 
         public Product Product
         {
