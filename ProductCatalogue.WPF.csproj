@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ProductCatalogue.WPF.Tests\**" />
+    <EmbeddedResource Remove="ProductCatalogue.WPF.Tests\**" />
+    <None Remove="ProductCatalogue.WPF.Tests\**" />
+    <Page Remove="ProductCatalogue.WPF.Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="7.0.0" />
   </ItemGroup>
 

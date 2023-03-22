@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCatalogue.WPF", "ProductCatalogue.WPF.csproj", "{64462AD5-A3E4-4A36-A5B8-7E81C2E47009}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductCatalogue.WPF", "ProductCatalogue.WPF.csproj", "{64462AD5-A3E4-4A36-A5B8-7E81C2E47009}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCatalogue.WPF.Tests", "ProductCatalogue.WPF.Tests\ProductCatalogue.WPF.Tests.csproj", "{52F777EE-8DCD-4215-822B-A4D37075E78E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{64462AD5-A3E4-4A36-A5B8-7E81C2E47009}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64462AD5-A3E4-4A36-A5B8-7E81C2E47009}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64462AD5-A3E4-4A36-A5B8-7E81C2E47009}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52F777EE-8DCD-4215-822B-A4D37075E78E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52F777EE-8DCD-4215-822B-A4D37075E78E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52F777EE-8DCD-4215-822B-A4D37075E78E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52F777EE-8DCD-4215-822B-A4D37075E78E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

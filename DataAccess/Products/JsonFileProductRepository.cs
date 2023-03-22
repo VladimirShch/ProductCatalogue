@@ -1,11 +1,10 @@
-﻿using Microsoft.VisualBasic;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ProductCatalogue.WPF.Core.Products;
 using ProductCatalogue.WPF.DataAccess.Common;
 using ProductCatalogue.WPF.Core.Common;
+using System;
 
 namespace ProductCatalogue.WPF.DataAccess.Products
 {
@@ -20,7 +19,7 @@ namespace ProductCatalogue.WPF.DataAccess.Products
 
         public JsonFileProductRepository(IStorage storage)
         {
-            this.storage = storage;
+            this.storage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
 
         public async Task Delete(int id)
