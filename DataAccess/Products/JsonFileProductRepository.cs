@@ -14,6 +14,8 @@ namespace ProductCatalogue.WPF.DataAccess.Products
     // TODO: create file accessor in common to read and write information from file
     public class JsonFileProductRepository : IProductRepository
     {
+        private readonly string storageWritingError = "Error writing to the storage";
+        private readonly string storageReadingError = "Error reading from the storage";
         private readonly string filePath = "Products.json";
         private readonly IStorage storage;
 
@@ -24,19 +26,44 @@ namespace ProductCatalogue.WPF.DataAccess.Products
 
         public async Task Delete(int id)
         {
-            var products = await storage.GetData<ICollection<Product>>(filePath) ?? new List<Product>();
+            ICollection<Product> products;
+            try
+            {
+                products = await storage.GetData<ICollection<Product>>(filePath) ?? new List<Product>();
+            }
+            catch (Exception e)
+            {
+                throw new RepositoryException(storageReadingError, e);
+            }
+
             Product? productToRemove = products.FirstOrDefault(t => t.Id == id);
 
             if (productToRemove is not null)
             {
                 products.Remove(productToRemove);
-                await storage.SetData(filePath, products);
+                try
+                {
+                    await storage.SetData(filePath, products);
+                }
+                catch (Exception e)
+                {
+                    throw new RepositoryException(storageWritingError, e);
+                }
             }
         }
 
         public async Task<Product?> Get(int id)
         {
-            var products = await storage.GetData<IEnumerable<Product>>(filePath) ?? Enumerable.Empty<Product>();
+            IEnumerable<Product> products;
+            try
+            {
+                products = await storage.GetData<IEnumerable<Product>>(filePath) ?? Enumerable.Empty<Product>();
+            }
+            catch (Exception e)
+            {
+                throw new RepositoryException(storageReadingError, e);
+            }
+
             Product? product = products.FirstOrDefault(t => t.Id == id);
 
             return product;
@@ -44,15 +71,31 @@ namespace ProductCatalogue.WPF.DataAccess.Products
 
         public async Task<IEnumerable<Product>> GetAll()
         {
-            var products = await storage.GetData<IEnumerable<Product>>(filePath) ?? Enumerable.Empty<Product>();
+            IEnumerable<Product> products;
+            try
+            {
+                products = await storage.GetData<IEnumerable<Product>>(filePath) ?? Enumerable.Empty<Product>();
+            }
+            catch (Exception e)
+            {
+                throw new RepositoryException(storageReadingError, e);
+            }
 
             return products;
         }
 
         public async Task Save(Product product)
         {
-            var products = await storage.GetData<ICollection<Product>>(filePath) ?? new List<Product>();
-            
+            ICollection<Product> products;
+            try
+            {
+                products = await storage.GetData<ICollection<Product>>(filePath) ?? new List<Product>();
+            }
+            catch (Exception e)
+            {
+                throw new RepositoryException(storageReadingError, e);
+            }
+
             //! Checking name uniqueness here 
             Product? productWithDuplicatedName = products.FirstOrDefault(p => p.Name == product.Name && p.Id != product.Id);
             if (productWithDuplicatedName is not null)
@@ -75,8 +118,14 @@ namespace ProductCatalogue.WPF.DataAccess.Products
                     productExisting.Type = product.Type;
                 }
             }
-
-            await storage.SetData(filePath, products);
+            try
+            {
+                await storage.SetData(filePath, products);
+            }
+            catch (Exception e)
+            {
+                throw new RepositoryException(storageWritingError, e);
+            }
         }
     }
 }
