@@ -16,26 +16,30 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
         {
             this.productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
             this.product = product ?? throw new ArgumentNullException(nameof(product));
-
+            DataReady = true;
             Save = new ParameterlessCommand(() =>
             {
+                DataReady = false;
+
                 this.productRepository.Save(Product)
                     .ContinueWith(t =>
                     {
+                        DataReady = true;
+
                         if (t.Exception is null)
                         {
                             SavingFinished?.Invoke(this, EventArgs.Empty);
                         }
                         else
                         {
-                            _ = InvokeMessageDialog?.Invoke(new ConfirmationViewModel(t.Exception.Message));
+                            _ = DisplayMessage?.Invoke(new ConfirmationViewModel(t.Exception.Message));
                         }
                     }, TaskScheduler.FromCurrentSynchronizationContext());
             }/*, () => Product.IsValid*/);
         }
 
         public EventHandler? SavingFinished { get; set; }
-        public Func<ConfirmationViewModel, bool>? InvokeMessageDialog { get; set; }
+        public Func<ConfirmationViewModel, bool>? DisplayMessage { get; set; }
 
         public ProductModel Product
         {

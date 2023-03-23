@@ -17,12 +17,13 @@ namespace ProductCatalogue.WPF.Presentation.Products.Views
             InitializeComponent();
             var viewModel = IoC.Container?.Resolve<ProductsViewModel>();
             DataContext = viewModel;
-            viewModel.InvokeProductDialog = OnInvokeProductDialog;
-            viewModel.InvokeConfirmationDialog = OnInvokeConfirmationDialog;
-            viewModel.InvokeMessageDialog = OnInvokeMessageDialog;
+            viewModel.ModifyProduct = OnModifyProduct;
+            viewModel.GetConfirmation = OnGetConfirmation;
+            viewModel.DisplayMessage = OnDisplayMessage;
+
         }
 
-        private bool OnInvokeProductDialog(ProductViewModel productViewModel)
+        private bool OnModifyProduct(ProductViewModel productViewModel)
         {
             var productWindow = new ProductWindow
             {
@@ -32,7 +33,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.Views
             return confirmed ?? false;
         }
 
-        private bool OnInvokeConfirmationDialog(ConfirmationViewModel confirmationViewModel)
+        private bool OnGetConfirmation(ConfirmationViewModel confirmationViewModel)
         {
             var confirmationWindow = new ConfirmationWindow
             {
@@ -42,7 +43,7 @@ namespace ProductCatalogue.WPF.Presentation.Products.Views
             return confirmed ?? false;
         }
 
-        private bool OnInvokeMessageDialog(ConfirmationViewModel confirmationViewModel)
+        private bool OnDisplayMessage(ConfirmationViewModel confirmationViewModel)
         {
             var confirmationWindow = new MessageWindow
             {

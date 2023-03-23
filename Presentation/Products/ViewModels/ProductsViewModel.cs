@@ -13,7 +13,6 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
     {
         private readonly IProductModelService productRepository;
         private readonly ProductModelFactory productModelFactory;
-        private bool dataReady;
         private IEnumerable<ProductModel> products;
 
         public ProductsViewModel(IProductModelService productRepository, ProductModelFactory productModelFactory)
@@ -23,41 +22,59 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
 
             products = Enumerable.Empty<ProductModel>();
 
-            InvokeProductDialog = vm => false;
-            InvokeConfirmationDialog = vm => false;
-            InvokeMessageDialog = vm => false;
+            ModifyProduct = vm => false;
+            GetConfirmation = vm => false;
+            DisplayMessage = vm => false;
 
             AddItem = new ParameterlessCommand(() =>
             {
+                if (!DataReady)
+                {
+                    return;
+                }
                 var productViewModel = new ProductViewModel(this.productRepository, this.productModelFactory.Create());
-                bool productSaved = InvokeProductDialog(productViewModel);
+                bool productSaved = ModifyProduct(productViewModel);
                 if (productSaved)
                 {
-                    this.productRepository.GetAll().ContinueWith(t => SetProducts(t.Result));
+                    _ = GetProducts();
                 }
             });
 
             Delete = new ParameterizedCommand(p =>
             {
-                if (p is null)
+                if (p is null || !DataReady)
                 {
                     return;
                 }
                 var id = Convert.ToInt32(p);
                 ProductModel productToDelete = Products.First(t => t.Id == id);
-                bool confirmDelete = InvokeConfirmationDialog(new ConfirmationViewModel($"Are you sure you want to delete \"{productToDelete.Name}\"?"));
+                bool confirmDelete = GetConfirmation?
+                    .Invoke(new ConfirmationViewModel($"Are you sure you want to delete \"{productToDelete.Name}\"?"))
+                        ?? false;
+
                 if (!confirmDelete)
                 {
                     return;
                 }
+
+                DataReady = false;
                 this.productRepository.Delete(id)
                     .ContinueWith(o =>
-                        this.productRepository.GetAll().ContinueWith(t => SetProducts(t.Result)));
+                    {
+                        DataReady = true;
+                        if (o.Exception is not null)
+                        {
+                            _ = DisplayMessage?.Invoke(new ConfirmationViewModel(o.Exception.Message));
+                            return;
+                        }
+
+                        _ = GetProducts();
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
             });
 
             Edit = new ParameterizedCommand(p =>
             {
-                if (p is null)
+                if (p is null || !DataReady)
                 {
                     return;
                 }
@@ -65,27 +82,14 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
 
                 ProductModel productToEdit = Products.First(t => t.Id == id);
                 var productViewModel = new ProductViewModel(this.productRepository, productToEdit);
-                bool confirmed = InvokeProductDialog(productViewModel);
+                bool confirmed = ModifyProduct?.Invoke(productViewModel) ?? false;
                 if (confirmed)
                 {
-                    this.productRepository.GetAll().ContinueWith(t => SetProducts(t.Result));
+                    _ = GetProducts();
                 }
             });
 
             OnInitialize();
-        }
-
-        public bool DataReady
-        {
-            get => dataReady;
-            private set
-            {
-                if (dataReady != value)
-                {
-                    dataReady = value;
-                    RaisePropertyChanged(nameof(DataReady));
-                }
-            }
         }
 
         public IEnumerable<ProductModel> Products
@@ -98,9 +102,9 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
             }
         }
 
-        public Func<ProductViewModel, bool> InvokeProductDialog { get; set; }
-        public Func<ConfirmationViewModel, bool> InvokeConfirmationDialog { get; set; }
-        public Func<ConfirmationViewModel, bool> InvokeMessageDialog { get; set; }
+        public Func<ProductViewModel, bool> ModifyProduct { get; set; }
+        public Func<ConfirmationViewModel, bool> GetConfirmation { get; set; }
+        public Func<ConfirmationViewModel, bool> DisplayMessage { get; set; }
 
         public ICommand AddItem { get; private set; }
 
@@ -110,16 +114,24 @@ namespace ProductCatalogue.WPF.Presentation.Products.ViewModels
 
         private void OnInitialize()
         {
-            // TODO: repository exception
-            productRepository.GetAll().ContinueWith(p => { Products = p.Result; DataReady = true; }, TaskScheduler.FromCurrentSynchronizationContext());
+            _ = GetProducts();
         }
 
-        // TODO: repository exception
         private async Task GetProducts()
         {
             DataReady = false;
-            Products = await productRepository.GetAll();
-            DataReady = true;
+            try
+            {
+                Products = await productRepository.GetAll();
+            }
+            catch (Exception e)
+            {
+                _ = DisplayMessage(new ConfirmationViewModel(e.Message));
+            }
+            finally
+            {
+                DataReady = true;
+            }
         }
 
         private void SetProducts(IEnumerable<ProductModel> products)

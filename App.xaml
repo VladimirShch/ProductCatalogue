@@ -2,8 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespac:ProductCatalogue.WPF"
+             xmlns:conv="clr-namespace:ProductCatalogue.WPF.Presentation.Converters"
              StartupUri="Presentation\Products\Views\ProductsWindow.xaml">
     <Application.Resources>
-         
+        <conv:AndConverter x:Key="AndConverter"/>
     </Application.Resources>
 </Application>

@@ -20,7 +20,7 @@
         <Label>Name</Label>
         <TextBox>
             <TextBox.Text>
-                <Binding Path="Product.Name">
+                <Binding Path="Product.Name" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
                         <DataErrorValidationRule/>
                     </Binding.ValidationRules>
@@ -33,7 +33,7 @@
         <Label>Price</Label>
         <TextBox>
             <TextBox.Text>
-                <Binding Path="Product.Price">
+                <Binding Path="Product.Price" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
                         <DataErrorValidationRule/>
                     </Binding.ValidationRules>
@@ -42,11 +42,23 @@
         </TextBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Command="{Binding Save}" Style="{StaticResource GreenButton}">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource AndConverter}">
+                        <Binding Path="Product.IsValid"/>
+                        <Binding Path="DataReady"/>
+                    </MultiBinding>
+                </Button.IsEnabled>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock>Save</TextBlock>
                 </StackPanel>
             </Button>
             <Button IsCancel="True" Style="{StaticResource WhiteButton}">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource AndConverter}">
+                        <Binding Path="Product.IsValid"/>
+                        <Binding Path="DataReady"/>
+                    </MultiBinding>
+                </Button.IsEnabled>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock>Cancel</TextBlock>
                 </StackPanel>

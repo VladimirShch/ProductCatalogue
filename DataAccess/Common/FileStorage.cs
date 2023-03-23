@@ -14,7 +14,7 @@ namespace ProductCatalogue.WPF.DataAccess.Common
             {
                 return default;
             }
-            var data = JsonSerializer.Deserialize<T>(dataRaw);
+            var data = JsonSerializer.Deserialize<T>(dataRaw); await Task.Delay(2000);
 
             return data;
         }
@@ -23,7 +23,7 @@ namespace ProductCatalogue.WPF.DataAccess.Common
         {
             CreateIfNotExists(filePath);
             string dataRaw = JsonSerializer.Serialize(data);
-            await File.WriteAllTextAsync(filePath, dataRaw);
+            await File.WriteAllTextAsync(filePath, dataRaw); await Task.Delay(2000);
         }
 
         private void CreateIfNotExists(string filePath)

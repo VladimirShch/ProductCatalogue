@@ -23,12 +23,12 @@ namespace ProductCatalogue.WPF.Presentation.Products.Views
                         this.Close();
                     };
 
-                    viewModel.InvokeMessageDialog = OnInvokeMessage;
+                    viewModel.DisplayMessage = OnDisplayMessage;
                 }
             };
         }
 
-        private bool OnInvokeMessage(ConfirmationViewModel viewModel)
+        private bool OnDisplayMessage(ConfirmationViewModel viewModel)
         {
             var messageWindow = new MessageWindow()
             {
